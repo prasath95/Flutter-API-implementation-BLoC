@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       home: RepositoryProvider(
         create: (context) => UserRepository(),
         child: const Home(),
-        ),
+      ),
     );
   }
 }

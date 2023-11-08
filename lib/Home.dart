@@ -11,54 +11,46 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserBloc(
-        RepositoryProvider.of<UserRepository>(context),
-      )..add(LoadUserEvent()),
+      create: (context) => UserBloc(RepositoryProvider.of<UserRepository>(context))..add(const LoadUserEvent()),
       child: Scaffold(
-          appBar: AppBar(
-        title: const Text('the blog app'),
-      ),
-      body: BlocBuilder<UserBloc,UserState>(
-        builder: (context,state){
-          
-          if(state is UserLoadingState){
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+        appBar: AppBar(
+          title: const Text('the blog app'),
+        ),
+        body: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
 
-          if(state is UserLoadedState){
-             List<UserModel> usersList=state.users;
-            return ListView.builder(
-              itemCount: usersList.length,
-              itemBuilder: (_,index){
-                  return Card(
-                    color: Colors.amber,
-                    elevation: 4,
-                    margin: const EdgeInsets.symmetric(vertical: 10) ,
-                    child: ListTile(
-                      title: Text(usersList[index].title),
-
-                    ),
-                  );
-              }
+            if (state is UserLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-          }
+            }
 
-           if(state is UserErrorState){
-            return const Center(
-              child: Text('Error !'),
-            );
-          }
+            if (state is UserLoadedState) {
+              List<UserModel> usersList = state.users;
+              return ListView.builder(
+                  itemCount: usersList.length,
+                  itemBuilder: (_, index) {
+                    return Card(
+                      color: Colors.amber,
+                      elevation: 4,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        title: Text(usersList[index].title),
+                      ),
+                    );
+                  });
+            }
 
-          return Container(
-           
-          );
-        },
-        
+            if (state is UserErrorState) {
+              return const Center(
+                child: Text('Error !'),
+              );
+            }
+
+            return Container();
+          },
+        ),
       ),
-      ),
-      
     );
   }
 }

@@ -12,10 +12,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
 
   UserBloc(this._userRepository) : super(UserLoadingState()) {
+
     on<LoadUserEvent>((event, emit)async {
       emit(UserLoadingState());
-      print('state load 1st');
-
       try {
         final users=await _userRepository.getUsers();
         emit(UserLoadedState(users));
@@ -23,5 +22,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UserErrorState(e.toString()));
       }
     });
+
+    on<UserClickEvent>((event, emit) {
+      // Handle the user click event here
+      // You can access the clicked user using event.user
+    });
+
   }
+
+
 }
